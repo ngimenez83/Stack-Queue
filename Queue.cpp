@@ -3,16 +3,14 @@
 //  Queue
 //
 //  Created by Nicolas Gimenez on 7/9/17.
+//  Update 10/9/17.
 //  Copyright © 2017 Nicolas Gimenez. All rights reserved.
 //
 
-#include <iostream>
-#include <array>
-
-const unsigned N=800;
+const unsigned N=4;
 struct Queue {
     std::array <int,N> a;
-    unsigned i=0,b=0;
+    unsigned front=0,rear=0, size_t=0;
 };
 
 void Enqueue (Queue&, int);
@@ -20,19 +18,24 @@ int Dequeue (Queue&);
 
 int main() {
     Queue q;
-    Enqueue (q,42);
-    Enqueue (q,55);
-    Enqueue (q,63);
+    Enqueue (q,1);
+    Enqueue (q,2);
+    Enqueue (q,3);
     std::cout<< Dequeue(q) << "\n";
-    std::cout<< Dequeue(q) << "\n";
+    Enqueue (q,4);
+    Enqueue (q,5);
+    std::cout<< "El tamaño de la pila es : " << q.size_t << "\n";
 }
 
 void Enqueue (Queue& q, int x){
-    q.a.at(q.i)=x;
-    ++q.i;
+    q.a.at(q.rear)=x;
+    q.rear=(q.rear+1) % N;
+    ++q.size_t;
 }
 
 int Dequeue (Queue& q){
-    ++q.b;
-    return q.a.at(q.b-1);
+    --q.size_t;
+    q.front=(q.front+1) %N;
+    return q.a.at(q.front-1);
 }
+
